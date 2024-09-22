@@ -222,7 +222,7 @@ class InitCluster
             ],
             'configFiles' => [
                 [
-                    'path' => '/ptah/caddy/tls/.keep',
+                    'path' => '/infra/caddy/tls/.keep',
                     'content' => '# Keep this file',
                 ],
                 [

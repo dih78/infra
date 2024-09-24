@@ -216,7 +216,7 @@ class SelfHostPtah extends Command
                     'name' => 'app',
                     'launchMode' => LaunchMode::Daemon->value,
                     'dockerRegistryId' => null,
-                    'dockerImage' => 'InfraImg',
+                    'dockerImage' => 'infraimg',
                     'releaseCommand' => [
                         'command' => 'php artisan config:cache && php artisan migrate --no-interaction --verbose --ansi --force',
                     ],

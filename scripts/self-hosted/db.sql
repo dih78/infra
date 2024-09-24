@@ -1222,7 +1222,7 @@ COPY public.node_task_groups (id, team_id, swarm_id, node_id, status, invoker_id
 --
 
 COPY public.node_tasks (id, team_id, task_group_id, type, meta, payload, status, started_at, ended_at, result, created_at, updated_at) FROM stdin;
-13	1	3	14	{"dockerImage": "infraimg:latest"}	{"Image": "infraimg:latest", "PullOptions": {}, "AuthConfigName": ""}	completed	2024-09-01 00:00:00	2024-09-01 00:00:00	[]	2024-09-01 00:00:00	2024-09-01 00:00:00
+13	1	3	14	{"dockerImage": "infraimg:latest"}	{"Image": "infraimg:latest", "PullOptions": {"IgnorePullFailure": true, "PullAlways": false}, "AuthConfigName": ""}	completed	2024-09-01 00:00:00	2024-09-01 00:00:00	[]	2024-09-01 00:00:00	2024-09-01 00:00:00
 1	1	1	1	{"swarmId": 1, "forceNewCluster": false}	{"SwarmInitRequest": {"Spec": {"Annotations": {"Name": "default", "Labels": {"sh.ptah.managed": "1", "sh.ptah.swarm.id": "1"}}}, "ListenAddr": "0.0.0.0:2377", "AdvertiseAddr": "192.168.1.1", "ForceNewCluster": false}}	completed	2024-09-01 00:00:00	2024-09-01 00:00:00	[]	2024-09-01 00:00:00	2024-09-01 00:00:00
 2	1	1	7	[]	{"NodeSpec": {"Name": "default", "Role": "manager", "Labels": {"sh.ptah.managed": "1", "sh.ptah.node.id": "1", "sh.ptah.node.name": "default"}, "Availability": "active"}}	completed	2024-09-01 00:00:00	2024-09-01 00:00:00	[]	2024-09-01 00:00:00	2024-09-01 00:00:00
 3	1	1	0	{"name": "ptah_net", "networkId": 1}	{"NetworkName": "ptah_net", "NetworkCreateOptions": {"Scope": "swarm", "Driver": "overlay", "Labels": {"sh.ptah.managed": "1", "sh.ptah.network.id": "1"}, "Attachable": true}}	completed	2024-09-01 00:00:00	2024-09-01 00:00:00	[]	2024-09-01 00:00:00	2024-09-01 00:00:00

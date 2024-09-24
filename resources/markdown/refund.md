@@ -78,11 +78,6 @@ If you have any questions about this Refund Policy, please contact us at:
 
 Infra
 
-Operated by Bohdan Shulha, Private Entrepreneur
-
-Business Address: 00-833, Warsaw, ul. Sienna 75, lok. 8.51
-
-Tax Identification Number (NIP): 5223265838
 
 Contact Email: contact@costmatic.co
 

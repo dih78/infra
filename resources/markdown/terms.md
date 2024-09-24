@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-These Terms of Service ("Terms") govern your use of Infra's Docker Swarm cluster management service ("Service"). Infra is a cloud-based platform that allows users to manage Docker Swarm clusters on their own Virtual Private Servers (VPS). By using our Service, you agree to these Terms. Infra is operated by Bohdan Shulha, a Private Entrepreneur registered in Poland.
+These Terms of Service ("Terms") govern your use of Infra's Docker Swarm cluster management service ("Service"). Infra is a cloud-based platform that allows users to manage Docker Swarm clusters on their own Virtual Private Servers (VPS). By using our Service, you agree to these Terms. 
 
 ## 2. Definitions
 
@@ -153,12 +153,6 @@ Users are prohibited from:
 For any questions regarding these Terms, please contact us at:
 
 Infra
-
-Operated by Bohdan Shulha, Private Entrepreneur
-
-Business Address: 00-833, Warsaw, ul. Sienna 75, lok. 8.51
-
-Tax Identification Number (NIP): 5223265838
 
 Contact Email: contact@costmatic.co
 

@@ -4,7 +4,7 @@
 
 ### 1.1 About Infra
 
-Infra is a Docker Swarm cluster management service operated by Bohdan Shulha, a Private Entrepreneur registered in Poland.
+Infra is a Docker Swarm cluster management service operated by Costmatic Inc.
 
 ### 1.2 Purpose of this Privacy Notice
 
@@ -18,15 +18,7 @@ This notice applies to all users of Infra services, including our website and AP
 
 The data controller for Infra is:
 
-Bohdan Shulha
-
-Private Entrepreneur
-
-00-833, Warsaw, ul. Sienna 75, lok. 8.51
-
-Poland
-
-Tax Identification Number (NIP): 5223265838
+Costmatic Inc
 
 Contact Email: contact@costmatic.co
 

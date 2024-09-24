@@ -1,0 +1,117 @@
+
+version: '3.8'
+
+services:
+  caddy:
+    image: caddy:2.8-alpine
+    restart: always
+    networks:
+      infra_net:
+        aliases:
+          - svc.caddy.infra.local
+    ports:
+      - "80:80"
+      - "443:443"
+      - "2019:2019"
+    volumes:
+      - svc_1_caddy_svc_data:/data
+      - svc_1_caddy_svc_config:/config
+      - svc_1_caddy_svc_infra_backups:/infra/backups
+      - ./resources/support/caddy/start.sh:/start.sh
+      #- ./path/to/your/tls/.keep:/infra/caddy/tls/.keep
+
+  postgres:
+    image: bitnami/postgresql:16
+    restart: always
+    environment:
+      POSTGRESQL_USERNAME: infra_sh
+      POSTGRESQL_PASSWORD: infra_sh
+      POSTGRESQL_DATABASE: infra_sh
+    networks:
+      infra_net:
+        aliases:
+          - pg.server.infra.local
+    volumes:
+      - svc_2_infra_pg_data:/bitnami/postgresql
+      - svc_2_infra_pg_infra_backups:/infra/backups
+
+  pgbouncer:
+    image: bitnami/pgbouncer
+    restart: always
+    environment:
+      PGBOUNCER_POOL_MODE: session
+      POSTGRESQL_USERNAME: infra_sh
+      POSTGRESQL_PASSWORD: infra_sh
+      POSTGRESQL_DATABASE: infra_sh
+      POSTGRESQL_HOST: pg.server.infra.local
+    networks:
+      infra_net:
+        aliases:
+          - pool.server.infra.local
+
+  ptah-app:
+    image: ghcr.io/ptah-sh/ptah-server:latest
+    restart: always
+    environment:
+      APP_ENV: production
+      APP_KEY: base64:APP_KEY
+      DB_CONNECTION: pgsql
+      DB_HOST: pool.server.infra.local
+      DB_DATABASE: infra_sh
+      DB_USERNAME: infra_sh
+      DB_PASSWORD: infra_sh
+      LOG_CHANNEL: errorlog
+      APP_URL: localhost
+    networks:
+      infra_net:
+        aliases:
+          - app.server.infra.local
+
+  ptah-schedule:
+    image: ghcr.io/ptah-sh/ptah-server:latest
+    restart: always
+    command: ["sh", "-c", "php artisan config:cache && php artisan schedule:work"]
+    environment:
+      APP_ENV: production
+      APP_KEY: base64:APP_KEY
+      DB_CONNECTION: pgsql
+      DB_HOST: pool.server.infra.local
+      DB_DATABASE: infra_sh
+      DB_USERNAME: infra_sh
+      DB_PASSWORD: infra_sh
+      LOG_CHANNEL: errorlog
+      APP_URL: localhost
+    networks:
+      infra_net:
+        aliases:
+          - schedule.app.server.infra.local
+
+  ptah-queue:
+    image: ghcr.io/ptah-sh/ptah-server:latest
+    restart: always
+    command: ["sh", "-c", "php artisan config:cache && php artisan queue:work"]
+    environment:
+      APP_ENV: production
+      APP_KEY: base64:APP_KEY
+      DB_CONNECTION: pgsql
+      DB_HOST: pool.server.infra.local
+      DB_DATABASE: infra_sh
+      DB_USERNAME: infra_sh
+      DB_PASSWORD: infra_sh
+      LOG_CHANNEL: errorlog
+      APP_URL: localhost
+    networks:
+      infra_net:
+        aliases:
+          - queue.app.server.infra.local
+
+networks:
+  infra_net:
+    driver: overlay
+
+volumes:
+  svc_1_caddy_svc_data:
+  svc_1_caddy_svc_config:
+  svc_1_caddy_svc_infra_backups:
+  svc_2_infra_pg_data:
+  svc_2_infra_pg_infra_backups:

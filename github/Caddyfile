@@ -1,0 +1,53 @@
+{
+    admin off
+}
+
+# Your main domain
+costmatic.com {
+    root * ./public
+
+    php_fastcgi ptah-app {
+        # Add any necessary options for FrankenPHP here
+    }
+
+    file_server
+    encode gzip
+
+    # Handle Laravel's front controller
+    try_files {path} /index.php?{query}
+
+    # Redirect HTTP to HTTPS
+    @http {
+        protocol http
+    }
+    redir @http https://{host}{uri} 301
+
+    # Add any additional headers if needed
+    header {
+        Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "no-referrer-when-downgrade"
+    }
+}
+
+# Admin subdomain
+admin.costmatic.com {
+    root * /path/to/your/laravel/public
+
+    php_fastcgi frankenphp:9000
+    file_server
+    encode gzip
+
+    # Handle Laravel's front controller for admin
+    try_files {path} /index.php?{query}
+
+    header {
+        Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "no-referrer-when-downgrade"
+    }
+}

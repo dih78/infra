@@ -220,7 +220,7 @@ class SelfHostPtah extends Command
                     'name' => 'app',
                     'launchMode' => LaunchMode::Daemon->value,
                     'dockerRegistryId' => null,
-                    'dockerImage' => 'ghcr.io/ptah-sh/ptah-server:latest',
+                    'dockerImage' => 'infraimg:latest',
                     'releaseCommand' => [
                         'command' => 'php artisan config:cache && php artisan migrate --no-interaction --verbose --ansi --force',
                     ],

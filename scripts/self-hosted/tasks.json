@@ -63,7 +63,7 @@
         "id": 13,
         "type": 14,
         "payload": "{\"Image\": \"infraimg:latest\", \"PullOptions\": {\"IgnorePullFailure\": true, \"PullAlways\": false}, \"AuthConfigName\": \"\"}"
-    }
+    },
     {
         "id": 14,
         "type": 21,

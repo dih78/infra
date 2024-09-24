@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-This Refund Policy outlines the terms and conditions under which Infra, operated by Bohdan Shulha, a Private Entrepreneur registered in Poland, may provide refunds for our Docker Swarm cluster management service.
+This Refund Policy outlines the terms and conditions under which Infra, operated by Infra, may provide refunds for our Docker Swarm cluster management service.
 
 ## 2. Subscription Model and Payments
 
@@ -77,7 +77,6 @@ This Refund Policy outlines the terms and conditions under which Infra, operated
 If you have any questions about this Refund Policy, please contact us at:
 
 Infra
-
 
 Contact Email: contact@costmatic.co
 

@@ -16,6 +16,8 @@ import RemoveComponentButton from "@/Components/Service/RemoveComponentButton.vu
 import ComponentBlock from "@/Components/Service/ComponentBlock.vue";
 import BackupSchedule from "@/Components/BackupSchedule.vue";
 import ToggleComponent from "@/Components/Service/ToggleComponent.vue";
+import { evaluate } from "@/expr-lang.js";
+import ExternalLink from "@/Components/ExternalLink.vue";
 
 const model = defineModel();
 
@@ -26,6 +28,7 @@ const props = defineProps({
     dockerRegistries: Array,
     s3Storages: Array,
     errors: Object,
+    initialSecretVars: Array,
 });
 
 const state = reactive({
@@ -60,7 +63,7 @@ const addEnvVar = () => {
 const addSecretVar = () => {
     model.value.processes[
         state.selectedProcessIndex["secretVars"]
-    ].secretVars.vars.push({ id: makeId("secret-var"), name: "", value: "" });
+    ].secretVars.push({ id: makeId("secret-var"), name: "", value: "" });
 };
 
 const addConfigFile = () => {
@@ -157,9 +160,7 @@ const addProcess = () => {
         workers: [],
         launchMode: "daemon",
         envVars: [],
-        secretVars: {
-            vars: [],
-        },
+        secretVars: [],
         configFiles: [],
         secretFiles: [],
         volumes: [],
@@ -347,6 +348,44 @@ const calculateHealthcheckTimes = computed(() => {
         pessimistic: pessimisticTime,
     };
 });
+
+const errors = ref({});
+
+const evaluateEnvVarTemplate = (envVar, index) => {
+    if (envVar.value) {
+        try {
+            envVar.value = evaluate(envVar.value, model.value);
+            // Clear any previous error for this field
+            delete errors.value[
+                `processes.${state.selectedProcessIndex["envVars"]}.envVars.${index}.value`
+            ];
+        } catch (error) {
+            console.error("Error evaluating env var template:", error);
+            // Set an error for this specific field
+            errors.value[
+                `processes.${state.selectedProcessIndex["envVars"]}.envVars.${index}.value`
+            ] = error.message; // 'Invalid template expression';
+        }
+    }
+};
+
+const evaluateSecretVarTemplate = (secretVar, index) => {
+    if (secretVar.value) {
+        try {
+            secretVar.value = evaluate(secretVar.value, model.value);
+            // Clear any previous error for this field
+            delete errors.value[
+                `processes.${state.selectedProcessIndex["secretVars"]}.secretVars.${index}.value`
+            ];
+        } catch (error) {
+            console.error("Error evaluating secret var template:", error);
+            // Set an error for this specific field
+            errors.value[
+                `processes.${state.selectedProcessIndex["secretVars"]}.secretVars.${index}.value`
+            ] = error.message; // 'Invalid template expression';
+        }
+    }
+};
 </script>
 
 <template>
@@ -1194,9 +1233,21 @@ const calculateHealthcheckTimes = computed(() => {
         <template #title> Environment Variables </template>
 
         <template #description>
-            Add environment variables to the service. These variables will be
-            stored on the Infra database and will be fully accessible to edit
-            them via UI.
+            <p>
+                Add environment variables to the service. These variables will
+                be stored on the Infra database and will be fully accessible
+                to edit them via UI.
+            </p>
+            <p>
+                Values of environment variables support the Infra expression
+                language. You can use built-in functions to generate or
+                manipulate values.
+                <ExternalLink
+                    href="https://costmatic.co/concepts/expression-language/"
+                >
+                    Learn more about the expression language
+                </ExternalLink>
+            </p>
         </template>
 
         <template #tabs>
@@ -1230,6 +1281,9 @@ const calculateHealthcheckTimes = computed(() => {
                     ] ||
                     props.errors[
                         `processes.${state.selectedProcessIndex['envVars']}.envVars.${index}.value`
+                    ] ||
+                    errors[
+                        `processes.${state.selectedProcessIndex['envVars']}.envVars.${index}.value`
                     ]
                 "
             >
@@ -1247,6 +1301,7 @@ const calculateHealthcheckTimes = computed(() => {
                         v-model="envVar.value"
                         class="grow"
                         placeholder="Value"
+                        @blur="evaluateEnvVarTemplate(envVar, index)"
                     />
 
                     <SecondaryButton
@@ -1316,6 +1371,15 @@ const calculateHealthcheckTimes = computed(() => {
                 Secret Variables are stored as Docker Configs and you will be
                 able to see it's contents via Docker CLI.
             </p>
+            <p>
+                Values of secret variables also support the Infra expression
+                language, allowing you to use built-in functions.
+                <ExternalLink
+                    href="https://costmatic.co/concepts/expression-language/"
+                >
+                    Learn more about the expression language
+                </ExternalLink>
+            </p>
         </template>
 
         <template #tabs>
@@ -1330,7 +1394,7 @@ const calculateHealthcheckTimes = computed(() => {
             <div
                 v-if="
                     model.processes[state.selectedProcessIndex['secretVars']]
-                        .secretVars.vars.length === 0
+                        .secretVars.length === 0
                 "
                 class="col-span-full"
             >
@@ -1340,14 +1404,14 @@ const calculateHealthcheckTimes = computed(() => {
                 v-else
                 v-for="(secretVar, index) in model.processes[
                     state.selectedProcessIndex['secretVars']
-                ].secretVars.vars"
+                ].secretVars"
                 :key="secretVar.id"
                 :error="
                     props.errors[
-                        `processes.${state.selectedProcessIndex['secretVars']}.secretVars.vars.${index}.name`
+                        `processes.${state.selectedProcessIndex['secretVars']}.secretVars.${index}.name`
                     ] ||
                     props.errors[
-                        `processes.${state.selectedProcessIndex['secretVars']}.secretVars.vars.${index}.value`
+                        `processes.${state.selectedProcessIndex['secretVars']}.secretVars.${index}.value`
                     ]
                 "
                 class="col-span-full"
@@ -1363,14 +1427,19 @@ const calculateHealthcheckTimes = computed(() => {
                     <TextInput
                         v-model="secretVar.value"
                         class="grow"
-                        placeholder="Value"
+                        :placeholder="
+                            initialSecretVars.includes(secretVar.name)
+                                ? 'keep existing secret value'
+                                : 'Value'
+                        "
+                        @blur="evaluateSecretVarTemplate(secretVar, index)"
                     />
 
                     <SecondaryButton
                         @click="
                             model.processes[
                                 state.selectedProcessIndex['secretVars']
-                            ].secretVars.vars.splice(index, 1)
+                            ].secretVars.splice(index, 1)
                         "
                         tabindex="-1"
                     >
@@ -1649,6 +1718,11 @@ const calculateHealthcheckTimes = computed(() => {
                         v-model="secretFile.content"
                         class="block w-full"
                         rows="3"
+                        :placeholder="
+                            secretFile.dockerName
+                                ? 'keep existing secret'
+                                : 'enter secret content'
+                        "
                     />
                 </FormField>
             </template>

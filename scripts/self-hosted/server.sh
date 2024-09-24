@@ -181,7 +181,7 @@ wait_for_postgres() {
     echo "$(yellow "Waiting for PostgreSQL to be ready...")"
 
     while [ $attempt -le $max_attempts ]; do
-        if docker exec $container pg_isready -U infra_sh > /dev/null 2>&1; then
+        if docker exec $container pg_isready -U ptah_sh > /dev/null 2>&1; then
             echo "$(green "PostgreSQL is ready!")"
             return 0
         fi
@@ -200,7 +200,7 @@ find_pg_container() {
     local attempt=1
 
     while [ $attempt -le $max_attempts ]; do
-        pg_container=$(docker ps --format '{{.Names}}' | grep 'infra_pg.' || true)
+        pg_container=$(docker ps --format '{{.Names}}' | grep 'ptah_pg.' || true)
         if [ -n "$pg_container" ]; then
             echo "$(green "Found PostgreSQL container:") $(cyan "$pg_container")"
             return 0
@@ -232,34 +232,34 @@ if ! wait_for_postgres "$pg_container"; then
 fi
 
 # Import the SQL dump
-if docker exec --env PGPASSWORD=infra_sh -i "$pg_container" psql -U infra_sh -d infra_sh < db.sql; then
+if docker exec --env PGPASSWORD=ptah_sh -i "$pg_container" psql -U ptah_sh -d ptah_sh < db.sql; then
     echo "$(green "SQL dump has been imported successfully.")"
 else
     echo "$(red "Error: Failed to import SQL dump.")"
     exit 1
 fi
 
-# Wait for Infra to be ready
-header "Waiting for Infra to be ready"
+# Wait for Ptah.sh to be ready
+header "Waiting for Ptah.sh to be ready"
 max_attempts=36  # 3 minutes with 5-second intervals
 attempt=1
 
 while [ $attempt -le $max_attempts ]; do
     if curl -s -o /dev/null -w "%{http_code}" "http://$PUBLIC_IP/login" | grep -q "200"; then
-        echo "$(green "Infra is ready!")"
+        echo "$(green "Ptah.sh is ready!")"
         break
     fi
-    echo "$(yellow "Attempt $attempt/$max_attempts: Infra is not ready yet. Waiting...")"
+    echo "$(yellow "Attempt $attempt/$max_attempts: Ptah.sh is not ready yet. Waiting...")"
     sleep 5
     attempt=$((attempt + 1))
 done
 
 if [ $attempt -gt $max_attempts ]; then
-    echo "$(red "Error: Infra did not become ready within 3 minutes.")"
+    echo "$(red "Error: Ptah.sh did not become ready within 3 minutes.")"
     exit 1
 fi
 
-echo "$(header "Infra Installation Complete")"
-echo "$(green "You can now access the Infra Dashboard at:") $(cyan "http://$PUBLIC_IP/dashboard")"
-echo "$(green "Username:") $(cyan "self-hosted@localhost")"
+echo "$(header "Ptah.sh Installation Complete")"
+echo "$(green "You can now access the Ptah.sh Dashboard at:") $(cyan "http://$PUBLIC_IP/dashboard")"
+echo "$(green "Username:") $(cyan "admin@localhost")"
 echo "$(green "Password:") $(cyan "$random_password")"

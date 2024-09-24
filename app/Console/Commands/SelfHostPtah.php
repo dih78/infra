@@ -27,7 +27,7 @@ class SelfHostPtah extends Command
      *
      * @var string
      */
-    protected $signature = 'app:self-host-infra';
+    protected $signature = 'app:self-host-ptah';
 
     /**
      * The console command description.
@@ -58,12 +58,12 @@ class SelfHostPtah extends Command
         ]);
 
         $user = User::create([
-            'name' => 'Self Host',
-            'email' => 'self-hosted@localhost',
+            'name' => 'Admin',
+            'email' => 'admin@localhost',
             'password' => 'self_hosted_password',
         ]);
 
-        User::where('email', 'self-hosted@localhost')->update(['password' => 'self_hosted_password']);
+        User::where('email', 'admin@localhost')->update(['password' => 'self_hosted_password']);
 
         $team = Team::make()->forceFill([
             'personal_team' => true,
@@ -77,8 +77,8 @@ class SelfHostPtah extends Command
 
         config([
             'billing.enabled' => false,
-            'infra.services.slug.vocabulary' => ['infra'],
-            'infra.services.slug.adjectives' => ['happy'],
+            'ptah.services.slug.vocabulary' => ['ptah'],
+            'ptah.services.slug.adjectives' => ['happy'],
         ]);
 
         $node = Node::create([
@@ -92,14 +92,14 @@ class SelfHostPtah extends Command
         $network = Network::first();
 
         $service = Service::create([
-            'name' => 'infra',
+            'name' => 'ptah',
             'team_id' => $team->id,
             'swarm_id' => $node->swarm_id,
         ]);
 
         StartDeployment::run($user, $service, DeploymentData::validateAndCreate([
             'networkName' => $network->docker_name,
-            'internalDomain' => 'server.infra.local',
+            'internalDomain' => 'server.ptah.local',
             'processes' => [
                 [
                     'name' => 'pg',
@@ -124,20 +124,18 @@ class SelfHostPtah extends Command
                     'envVars' => [
                         [
                             'name' => 'POSTGRESQL_USERNAME',
-                            'value' => 'infra_sh',
+                            'value' => 'ptah_sh',
                         ],
                         [
                             'name' => 'POSTGRESQL_PASSWORD',
-                            'value' => 'infra_sh',
+                            'value' => 'ptah_sh',
                         ],
                         [
                             'name' => 'POSTGRESQL_DATABASE',
-                            'value' => 'infra_sh',
+                            'value' => 'ptah_sh',
                         ],
                     ],
-                    'secretVars' => [
-                        'vars' => [],
-                    ],
+                    'secretVars' => [],
                     'configFiles' => [],
                     'secretFiles' => [],
                     'volumes' => [
@@ -180,19 +178,19 @@ class SelfHostPtah extends Command
                         ],
                         [
                             'name' => 'POSTGRESQL_USERNAME',
-                            'value' => 'infra_sh',
+                            'value' => 'ptah_sh',
                         ],
                         [
                             'name' => 'POSTGRESQL_PASSWORD',
-                            'value' => 'infra_sh',
+                            'value' => 'ptah_sh',
                         ],
                         [
                             'name' => 'POSTGRESQL_DATABASE',
-                            'value' => 'infra_sh',
+                            'value' => 'ptah_sh',
                         ],
                         [
                             'name' => 'POSTGRESQL_HOST',
-                            'value' => 'pg.server.infra.local',
+                            'value' => 'pg.server.ptah.local',
                         ],
                         [
                             'name' => 'PGBOUNCER_PORT',
@@ -200,12 +198,10 @@ class SelfHostPtah extends Command
                         ],
                         [
                             'name' => 'PGBOUNCER_DATABASE',
-                            'value' => 'infra_sh',
+                            'value' => 'ptah_sh',
                         ],
                     ],
-                    'secretVars' => [
-                        'vars' => [],
-                    ],
+                    'secretVars' => [],
                     'configFiles' => [],
                     'secretFiles' => [],
                     'volumes' => [],
@@ -220,7 +216,7 @@ class SelfHostPtah extends Command
                     'name' => 'app',
                     'launchMode' => LaunchMode::Daemon->value,
                     'dockerRegistryId' => null,
-                    'dockerImage' => 'infraimg:latest',
+                    'dockerImage' => 'InfraImg',
                     'releaseCommand' => [
                         'command' => 'php artisan config:cache && php artisan migrate --no-interaction --verbose --ansi --force',
                     ],
@@ -265,19 +261,19 @@ class SelfHostPtah extends Command
                         ],
                         [
                             'name' => 'DB_HOST',
-                            'value' => 'pool.server.infra.local',
+                            'value' => 'pool.server.ptah.local',
                         ],
                         [
                             'name' => 'DB_DATABASE',
-                            'value' => 'infra_sh',
+                            'value' => 'ptah_sh',
                         ],
                         [
                             'name' => 'DB_USERNAME',
-                            'value' => 'infra_sh',
+                            'value' => 'ptah_sh',
                         ],
                         [
                             'name' => 'DB_PASSWORD',
-                            'value' => 'infra_sh',
+                            'value' => 'ptah_sh',
                         ],
                         [
                             'name' => 'LOG_CHANNEL',
@@ -289,12 +285,10 @@ class SelfHostPtah extends Command
                         ],
                         [
                             'name' => 'BILLING_ENABLED',
-                            'value' => 'false',
+                            'value' => 'true',
                         ],
                     ],
-                    'secretVars' => [
-                        'vars' => [],
-                    ],
+                    'secretVars' => [],
                     'configFiles' => [],
                     'secretFiles' => [],
                     'volumes' => [],
@@ -306,7 +300,7 @@ class SelfHostPtah extends Command
                             'targetProtocol' => 'http',
                             'targetPort' => 8080,
                             'publishedPort' => 80,
-                            'domain' => 'infra.localhost',
+                            'domain' => 'ptah.localhost',
                             'path' => '/*',
                         ],
                     ],

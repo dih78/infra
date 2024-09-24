@@ -6,14 +6,14 @@ if (! function_exists('dockerize_labels')) {
     function dockerize_labels(array $labels): array
     {
         $result = [
-            'sh.infra.managed' => '1',
+            'sh.ptah.managed' => '1',
         ];
 
         foreach ($labels as $label => $value) {
-            if (Str::startsWith($label, 'sh.infra.')) {
+            if (Str::startsWith($label, 'sh.ptah.')) {
                 $result[$label] = (string) $value;
             } else {
-                $result["sh.infra.{$label}"] = (string) $value;
+                $result["sh.ptah.{$label}"] = (string) $value;
             }
         }
 

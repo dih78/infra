@@ -48,7 +48,7 @@ These Terms of Service ("Terms") govern your use of Infra's Docker Swarm cluster
 
 ## 7. Subscription and Billing
 
-7.1 For current pricing information, please refer to our website at infra.
+7.1 For current pricing information, please refer to our website at Infra.
 
 7.2 Our order process is conducted by our online reseller Paddle.com. Paddle.com is the Merchant of Record for all our orders. Paddle provides all customer service inquiries and handles returns.
 

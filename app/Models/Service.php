@@ -82,8 +82,8 @@ class Service extends Model
     protected function generateUniqueSlug($id)
     {
         $slug = Str::slug($this->name, '_');
-        $vocabulary = config('infra.services.slug.vocabulary');
-        $adjectives = config('infra.services.slug.adjectives');
+        $vocabulary = config('ptah.services.slug.vocabulary');
+        $adjectives = config('ptah.services.slug.adjectives');
 
         $entity = $vocabulary[array_rand($vocabulary)];
         $adjective = $adjectives[array_rand($adjectives)];

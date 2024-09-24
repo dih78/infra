@@ -59,7 +59,7 @@ class AskMidTrialFeedback extends Notification implements ShouldQueue
         return $message
             ->line('Your feedback is invaluable to us and will help shape the future of Infra.')
             ->line('Also, we invite you to join our Discord community to connect with other users and our team.')
-            ->action('Join Our Discord', 'https://r.infra/chat')
+            ->action('Join Our Discord', 'https://r.Infra/chat')
             ->line('Thank you for being a part of Infra!');
     }
 

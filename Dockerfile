@@ -1,5 +1,7 @@
 FROM dunglas/frankenphp:latest
 
+
+
 RUN apt-get update \
     && apt-get install -y nodejs npm unzip libpq-dev \
     && curl https://raw.githubusercontent.com/composer/getcomposer.org/76a7060ccb93902cd7576b67264ad91c8a2700e2/web/installer | php -- --quiet \
@@ -14,7 +16,7 @@ WORKDIR /app
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV SERVER_NAME=":8080"
-ENV APP_NAME="Infra"
+ENV APP_NAME="Ptah.sh"
 
 COPY package.json .
 COPY package-lock.json .

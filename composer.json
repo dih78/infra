@@ -1,11 +1,10 @@
 {
-    "name": "infra-sh/infra-server",
+    "name": "ptah-sh/ptah-server",
     "type": "project",
     "description": "Infra SaaS server.",
     "keywords": [
         "docker",
         "deploy",
-        "infra",
         "infra-server",
         "infra-saas"
     ],

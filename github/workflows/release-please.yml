@@ -73,7 +73,7 @@ jobs:
       - build-and-publish
     if: ${{ needs.release-please.outputs.release_created }}
     steps:
-      - name: Deploy to Infra
+      - name: Deploy to Ptah.sh
         uses: ptah-sh/deploy-action@v1.1.1
         with:
           apiKey: ${{ secrets.PTAH_API_TOKEN }}

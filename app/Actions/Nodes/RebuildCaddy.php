@@ -50,7 +50,7 @@ class RebuildCaddy extends Action
                             ],
                             'response' => [
                                 'set' => [
-                                    'X-Powered-By' => ['https://infra.sh'],
+                                    'X-Powered-By' => ['https://ptah.sh'],
                                     'X-Ptah-Rule-Id' => [$caddy->id],
                                 ],
                             ],
@@ -93,7 +93,7 @@ class RebuildCaddy extends Action
                                     'handler' => 'static_response',
                                     'status_code' => (string) $redirectRule->statusCode,
                                     'headers' => [
-                                        'X-Powered-By' => ['https://infra.sh'],
+                                        'X-Powered-By' => ['https://ptah.sh'],
                                         'X-Ptah-Rule-Id' => [$redirectRule->id],
                                         'Location' => ["{http.request.scheme}://{$redirectRule->domainTo}{$pathTo}"],
                                     ],
@@ -150,7 +150,7 @@ class RebuildCaddy extends Action
                         'handler' => 'static_response',
                         'status_code' => '404',
                         'headers' => [
-                            'X-Powered-By' => ['https://infra.sh'],
+                            'X-Powered-By' => ['https://ptah.sh'],
                             'Content-Type' => ['text/html; charset=utf-8'],
                         ],
                         'body' => file_get_contents(resource_path('support/caddy/404.html')),

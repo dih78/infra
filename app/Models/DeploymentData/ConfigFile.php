@@ -8,16 +8,10 @@ class ConfigFile extends Data
 {
     public function __construct(
         public string $path,
-        public ?string $content,
+        public string $content,
         public ?string $dockerName,
     ) {
         $this->content = $content ?? '';
-    }
-
-    public function hash(): string
-    {
-        // TODO: use cache?
-        return md5($this->content);
     }
 
     public function base64(): string
@@ -27,6 +21,10 @@ class ConfigFile extends Data
 
     public function sameAs(?ConfigFile $older): bool
     {
-        return $older !== null && $this->hash() === $older->hash();
+        if ($older === null) {
+            return false;
+        }
+
+        return $this->content === $older->content;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'marketplace_url' => env('PTAH_MARKETPLACE_URL', 'https://infra/marketplace'),
+    'marketplace_url' => env('PTAH_MARKETPLACE_URL', 'https://costmatic.co/marketplace'),
 
     'services' => [
         'slug' => [

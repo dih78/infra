@@ -37,7 +37,7 @@ return new class extends Migration
                     )
                   ) || jsonb_build_object(
                     'backupVolume',
-                    CONCAT('{\"id\":\"backups-', substr(md5(random()::text), 1, 11) ,'\",\"name\":\"backups\",\"path\":\"/infra/backups\",\"dockerName\":\"svc_', deployments.service_id,'_', (select name from services where id = deployments.service_id),'_svc_infra_backups\",\"backupSchedule\":{\"expr\":null,\"preset\":\"cron-disabled\"}}')::jsonb
+                    CONCAT('{\"id\":\"backups-', substr(md5(random()::text), 1, 11) ,'\",\"name\":\"backups\",\"path\":\"/ptah/backups\",\"dockerName\":\"svc_', deployments.service_id,'_', (select name from services where id = deployments.service_id),'_svc_ptah_backups\",\"backupSchedule\":{\"expr\":null,\"preset\":\"cron-disabled\"}}')::jsonb
                   )
                 )
                 FROM jsonb_array_elements(data->'processes') AS process

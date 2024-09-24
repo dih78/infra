@@ -22,8 +22,8 @@ SCRIPT_DIR="$(dirname "$0")"
 #include:core.sh
 #--- core.sh
 
-USER="infra"
-GROUP="infra"
+USER="ptah"
+GROUP="ptah"
 
 if [ -z "$PTAH_TOKEN" ]; then
     echo "$(red "ERROR: PTAH_TOKEN is not set.")"
@@ -54,7 +54,7 @@ else
     echo "$(bold "Using user:") $(cyan "$USER")"
 fi
 
-chown -R "$USER:$GROUP" /tmp/infra-agent
+chown -R "$USER:$GROUP" /tmp/ptah-agent
 
 echo "$(bold "Switching to user:") $(cyan "$USER")"
 
@@ -112,8 +112,8 @@ echo "$(header "Install ptah-agent systemd services")"
 # TODO: add ExecStartPre and ExecStartPost to notify about agent restarts
 cat <<EOF > /etc/systemd/system/ptah-agent.service
 [Unit]
-Description=Infra Agent
-Documentation=https://infra
+Description=Ptah.sh Agent
+Documentation=https://ptah.sh
 After=network.target
 
 [Service]

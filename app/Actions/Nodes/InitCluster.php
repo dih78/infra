@@ -82,6 +82,7 @@ class InitCluster
                     'manager' => '-',
                 ],
                 'managerNodes' => [],
+                'encryptionKey' => '-',
             ]),
         ]);
     }
@@ -91,7 +92,7 @@ class InitCluster
         return Network::create([
             'swarm_id' => $swarmId,
             'team_id' => $teamId,
-            'name' => dockerize_name('infra-net'),
+            'name' => dockerize_name('ptah-net'),
         ]);
     }
 
@@ -182,7 +183,7 @@ class InitCluster
     {
         return DeploymentData::validateAndCreate([
             'networkName' => $network->docker_name,
-            'internalDomain' => 'caddy.infra.local',
+            'internalDomain' => 'caddy.ptah.local',
             'processes' => [
                 $this->getCaddyProcessConfig($node),
             ],
@@ -217,12 +218,10 @@ class InitCluster
                     'value' => '0.0.0.0:2019',
                 ],
             ],
-            'secretVars' => [
-                'vars' => [],
-            ],
+            'secretVars' => [],
             'configFiles' => [
                 [
-                    'path' => '/infra/caddy/tls/.keep',
+                    'path' => '/ptah/caddy/tls/.keep',
                     'content' => '# Keep this file',
                 ],
                 [

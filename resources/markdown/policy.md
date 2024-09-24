@@ -4,7 +4,7 @@
 
 ### 1.1 About Infra
 
-Infra is a Docker Swarm cluster management service operated by Costmatic Inc.
+Infra is a Docker Swarm cluster management service operated by Infra.
 
 ### 1.2 Purpose of this Privacy Notice
 
@@ -18,7 +18,7 @@ This notice applies to all users of Infra services, including our website and AP
 
 The data controller for Infra is:
 
-Costmatic Inc
+Infra
 
 Contact Email: contact@costmatic.co
 

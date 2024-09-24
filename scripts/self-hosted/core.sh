@@ -19,7 +19,14 @@ help_text() {
 # Header generated with http://www.kammerl.de/ascii/AsciiSignature.php
 # Selected font - starwars
 
+blue "$(cat << EOF
 
+.______   .___________.    ___       __    __           _______. __    __
+|   _  \  |           |   /   \     |  |  |  |         /       ||  |  |  |
+|  |_)  | \`---|  |----\`  /  ^  \    |  |__|  |        |   (----\`|  |__|  |
+|   ___/      |  |      /  /_\  \   |   __   |         \   \    |   __   |
+|  |          |  |     /  _____  \  |  |  |  |  __ .----)   |   |  |  |  |
+| _|          |__|    /__/     \__\ |__|  |__| (__)|_______/    |__|  |__|
 $(green "$PTAH_COMPONENT_BANNER")
 
 
@@ -40,7 +47,7 @@ DRY_MODE=${DRY_MODE:-false}
 if [ -z "$SKIP_CORE_INSTALL" ]; then
     case "$OS_NAME" in
         ubuntu)
-            echo "$(green "Installing Infra for Ubuntu...")"
+            echo "$(green "Installing Ptah.sh for Ubuntu...")"
 
             PKG_UPDATE_REGISTRIES="apt-get update"
             PKG_INSTALL="apt-get install -yq"

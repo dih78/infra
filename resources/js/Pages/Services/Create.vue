@@ -1,19 +1,14 @@
 <script setup>
-import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
-import TextInput from "@/Components/TextInput.vue";
 import ActionSection from "@/Components/ActionSection.vue";
 import { useForm } from "@inertiajs/vue3";
-import FormField from "@/Components/FormField.vue";
-import Select from "@/Components/Select.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import TextArea from "@/Components/TextArea.vue";
-import { computed, effect, reactive } from "vue";
+import { reactive } from "vue";
 import ServiceDetailsForm from "@/Pages/Services/Partials/ServiceDetailsForm.vue";
 import DeploymentData from "@/Pages/Services/Partials/DeploymentData.vue";
 import TemplatePicker from "@/Pages/Services/Partials/TemplatePicker.vue";
+import { useCrypto } from "@/encryption";
 
 const props = defineProps({
     networks: Array,
@@ -24,13 +19,24 @@ const props = defineProps({
     marketplaceUrl: String,
 });
 
+const { encryptDeploymentData } = useCrypto();
+
 const form = useForm({
     name: "",
     deploymentData: props.deploymentData,
 });
 
-const createService = () => {
-    form.post(route("services.store"));
+const createService = async () => {
+    form.processing = true;
+
+    const formData = form.data();
+
+    const encryptedFormData = {
+        ...formData,
+        deploymentData: await encryptDeploymentData(formData.deploymentData),
+    };
+
+    form.transform(() => encryptedFormData).post(route("services.store"));
 };
 
 const showTemplatePicker = reactive({
@@ -119,6 +125,7 @@ const applyTemplate = (template) => {
                     :service-name="form.name"
                     :docker-registries="props.dockerRegistries"
                     :s3-storages="props.s3Storages"
+                    :initial-secret-vars="[]"
                 />
 
                 <div class="flex justify-end">

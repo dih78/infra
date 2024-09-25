@@ -68,7 +68,7 @@ class SelfHostPtah extends Command
         $team = Team::make()->forceFill([
             'personal_team' => true,
             'billing_name' => 'Admin',
-            'billing_email' => 'dim@costmatic.co',
+            'billing_email' => 'khadjiradev@gmail.com',
             'name' => 'Admin',
             'user_id' => $user->id,
         ]);

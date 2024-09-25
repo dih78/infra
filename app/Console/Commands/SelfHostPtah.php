@@ -59,7 +59,7 @@ class SelfHostPtah extends Command
 
         $user = User::create([
             'name' => 'Admin',
-            'email' => 'admin@localhost',
+            'email' => 'dim@costmatic.co',
             'password' => 'self_hosted_password',
         ]);
 
@@ -67,9 +67,9 @@ class SelfHostPtah extends Command
 
         $team = Team::make()->forceFill([
             'personal_team' => true,
-            'billing_name' => 'Self Host',
-            'billing_email' => 'self-host@localhost',
-            'name' => 'Self Host',
+            'billing_name' => 'Admin',
+            'billing_email' => 'dim@costmatic.co',
+            'name' => 'Admin',
             'user_id' => $user->id,
         ]);
 

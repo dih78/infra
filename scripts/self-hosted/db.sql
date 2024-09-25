@@ -1331,7 +1331,7 @@ COPY public.team_user (id, team_id, user_id, role, created_at, updated_at) FROM 
 --
 
 COPY public.teams (id, user_id, name, personal_team, created_at, updated_at, billing_name, billing_email, activating_subscription, quotas_override) FROM stdin;
-1	1	Self Host	t	2024-09-01 00:00:00	2024-09-01 00:00:00	Self Host	self-host@localhost	f	{"nodes":0,"swarms":0,"services":0,"deployments":0}
+1	1	Admin	t	2024-09-01 00:00:00	2024-09-01 00:00:00	Admin	dim@costmatic.co	f	{"nodes":0,"swarms":0,"services":0,"deployments":0}
 \.
 
 
@@ -1348,7 +1348,7 @@ COPY public.transactions (id, billable_type, billable_id, paddle_id, paddle_subs
 --
 
 COPY public.users (id, name, email, email_verified_at, password, remember_token, current_team_id, profile_photo_path, created_at, updated_at, two_factor_secret, two_factor_recovery_codes, two_factor_confirmed_at) FROM stdin;
-1	Self Host	admin@localhost	2024-09-01 00:00:00	self_hosted_password	\N	1	\N	2024-09-01 00:00:00	2024-09-01 00:00:00	\N	\N	\N
+1	Admin	admin@localhost	2024-09-01 00:00:00	self_hosted_password	\N	1	\N	2024-09-01 00:00:00	2024-09-01 00:00:00	\N	\N	\N
 \.
 
 

@@ -194,7 +194,7 @@ class SelfHostPtah extends Command
                         ],
                         [
                             'name' => 'PGBOUNCER_PORT',
-                            'value' => '5432',
+                            'value' => '6432',
                         ],
                         [
                             'name' => 'PGBOUNCER_DATABASE',
